@@ -1,0 +1,91 @@
+﻿version 4.00
+cm_version 2.0
+platform OpenCM9.04
+o // param_text:XM/XH Series Velocity Control Example
+o // param_text:Requires OpenCM9.04 V14 or higher = Requires OpenCM9.04 V14 or higher
+o // param_text:Created : 4 / 12 / 2016
+- 
+o main
+o begin
+o call faddr_dest:CheckDynamixelChannel
+o call faddr_dest:InitializeVelocityMode
+- 
+o while(1)
+o begin
+o load param_dest:motor5:254:1010 param_src:position_num:0
+o call faddr_dest:Delay1500ms
+- 
+o load param_dest:motor5:254:1010 param_src:dec_num:-250
+o call faddr_dest:Delay1500ms
+- 
+o load param_dest:motor5:254:1010 param_src:position_num:0
+o call faddr_dest:Delay1500ms
+- 
+o load param_dest:motor5:254:1010 param_src:dec_num:250
+o call faddr_dest:Delay1500ms
+o end
+o end
+- 
+o function faddr_src:CheckDynamixelChannel
+o begin
+o // param_text:Dynamixel Channel to 1 (EXP Board) = Using XM/XH : Set Dynamixel Channel to 1 (EXP Board)
+o if param_src:cm:49 lop:!= param_src:dec_num:1 rop:then
+o begin
+o load param_dest:cm:49 param_src:dec_num:1
+o exit
+o end
+o end
+- 
+o function faddr_src:InitializeVelocityMode
+o begin
+o // param_text:EEPROM Lock Off (Torque Enable Off)
+o load param_dest:motor5:254:1001 param_src:bool_num:0
+- 
+o // param_text:Velocity Control Mode
+o load param_dest:motor5:254:1000 param_src:dec_num:1
+- 
+o // param_text:EEPROM Lock On (Torque Enable On)
+o load param_dest:motor5:254:1001 param_src:bool_num:1
+o end
+- 
+o function faddr_src:Delay1500ms
+o begin
+o load param_dest:cm:5 param_src:timer_num:12
+o wait param_src:cm:5 lop:> param_src:dec_num:0 rop:then
+o end
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
